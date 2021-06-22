@@ -1,41 +1,50 @@
-JBOSS EAP 7.1.1 Installation on RHEL 8.1:
+JBOSS EAP 7.1.1 Installation on CENTOS 7:
 
 1. Install updates:
-    $ sudo yum update -y
-2. Install JDK:
-    $ sudo yum install java-11-openjdk-devel -y
+    $ sudo su
+    $ yum update -y
+2. Install java:
+    $ sudo sudo yum install java-1.8.0-openjdk -y
     $ java -version
-    $ which java
-3. Download JBOSS 7.1.1 in /usr/share directory:
+3. Add JAVA_HOME path:
+    $ update-alternatives --config java
+    $ vim .bash_profile
+    And add following line at the end of the file and save and exit (wq!):
+        export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.191.b12-1.el7_6.x86_64/jre/bin/java
+4. Download JBOSS 7.1.1 in /usr/share directory:
     $ sudo su
     $ cd /usr/share/
     $ wget http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.zip
-4. Unzip the package rename the output folder:
+5. Unzip the package rename the output folder:
     $ unzip -q jboss-as-7.1.1.Final.zip
     $ mv jboss-as-7.1.1.Final jboss-as
-5. Add the JBOSS group and user:
+6. Add the JBOSS group and user:
     $ groupadd jboss
     $ useradd -s /bin/bash -g jboss jboss
-6. Change the ownership for jboss-as:
+7. Change the ownership for jboss-as:
     $ chown -Rf jboss.jboss /usr/share/jboss-as
-7. Now, navigate to /home/jboss/ and add some lines in .bash_profile file
+8. Now, navigate to /home/jboss/ and add some lines in .bash_profile file
     $ cd /home/jboss/
     $ vim .bash_profile
 
     And add following lines to the file save and exit (wq!):
-        JAVA_HOME=/usr/lib/jvm/java-11-openjdk-11.0.11.0.9-0.el8_1.x86_64  
-        export JAVA_HOME  
-        PATH=$JAVA_HOME/bin:$PATH  
-        export PATH
+        JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.191.b12-1.el7_6.x86_64/jre/bin/java  
+        
+        [   export JAVA_HOME  
+            PATH=$JAVA_HOME/bin:$PATH  
+            export PATH   ]  --- not necessary
+
 8. Repeat step 7 for root user as well:
     $ cd /root/
     $ vim .bash_profile
 
     And add following lines to the file save and exit (wq!):
-        JAVA_HOME=/usr/lib/jvm/java-11-openjdk-11.0.11.0.9-0.el8_1.x86_64  
-        export JAVA_HOME  
-        PATH=$JAVA_HOME/bin:$PATH  
-        export PATH
+        JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.191.b12-1.el7_6.x86_64/jre/bin/java  
+        
+        [   export JAVA_HOME  
+            PATH=$JAVA_HOME/bin:$PATH  
+            export PATH   ]  --- not necessary
+
 9. Copy the jboss-as-standalone.sh script file to /etc/init.d/jboss and cd into /etc/init.d/
     $ cp /usr/share/jboss-as/bin/init.d/jboss-as-standalone.sh /etc/init.d/jboss
     $ cd /etc/init.d/
@@ -44,6 +53,7 @@ JBOSS EAP 7.1.1 Installation on RHEL 8.1:
     And add following below export JAVA_HOME and save and exit (wq!)
         JBOSS_USER=jboss
         export JBOSS_USER
+
 11. Next step is set permission for the jboss file
     $ chmod 755 jboss
 12. Add systemd file for jboss in /etc/systemd/service
@@ -56,7 +66,7 @@ JBOSS EAP 7.1.1 Installation on RHEL 8.1:
 
         [Service]
         Type=idle
-        Environment=JAVA_HOME=/usr/lib/jvm/java-11-openjdk-11.0.11.0.9-0.el8_1.x86_64 JBOSS_HOME=/usr/share/jboss-as JAVA=JAVA_HOME=/usr/lib/jvm/java-11-openjdk-11.0.11.0.9-0.el8_1.x86_64/bin/java
+        Environment=JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.191.b12-1.el7_6.x86_64/jre/bin/java JBOSS_HOME=/usr/share/jboss-as JAVA=JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.191.b12-1.el7_6.x86_64/jre/bin/java
         User=jboss
         Group=jboss
         ExecStart=/usr/share/jboss-as/bin/init.d/jboss-as-standalone.sh
@@ -75,6 +85,6 @@ JBOSS EAP 7.1.1 Installation on RHEL 8.1:
 15. And then edit the standalone.xml file. Open the file as follows:
     $ vim standalone.xml
     Once you are in the standalone.xml file, change the bind address in the public interface as follows. Save it and exit (wq!) after the appropriate changes are made.
-    Change it from 127.0.0.1 to 0.0.0.0
+    - Change it from 127.0.0.1 to 0.0.0.0
 
 
