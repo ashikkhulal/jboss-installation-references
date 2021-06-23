@@ -3,7 +3,7 @@ JBOSS EAP 7.1.1 Installation on RHEL 8.1:
 1. Install updates:
     $ sudo yum update -y
 2. Install JDK:
-    $ sudo yum install java-11-openjdk-devel -y
+    $ sudo yum install java-1.7.0-openjdk -y
     $ java -version
     $ which java
 3. Download JBOSS 7.1.1 in /usr/share directory:

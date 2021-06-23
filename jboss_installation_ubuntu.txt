@@ -1,0 +1,18 @@
+JBOSS EAP 7.1.1 Installation on UBUNTU 18.04 LTS:
+
+1. Install updates and upgrades:
+    $ sudo apt-get update -y 
+    $ sudo apt-get upgrade -y 
+2. Install the OpenJDK package from APT:
+    $ sudo apt-get install default-jdk -y 
+3. Create a user and group for jboss:
+    $ sudo groupadd -r jboss
+    $ sudo useradd -r -g jboss -d /opt/jboss -s /sbin/nologin jboss
+4. Download the jboss installation file:
+    $ wget https://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.tar.gz -P /tmp 
+5. Extract the jboss tar.gz file to /opt folder:
+    $ sudo tar xf /tmp/jboss-as-7.1.1.Final.tar.gz -C /opt/
+6. Create a symbolic link to point to the jboss installation directory:
+    $ sudo ln -s /opt/jboss-as-7.1.1.Final /opt/jboss
+7. Give access to jboss group and user:
+    $ sudo chown -RH jboss: /opt/jboss
