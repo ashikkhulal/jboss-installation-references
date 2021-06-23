@@ -1,0 +1,46 @@
+JBOSS EAP 7.1.1 Installation on RHEL 8.1 (another method):
+
+sudo su
+yum update -y
+yum install java-1.7.0-openjdk -y
+cd /usr/share/
+wget http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.zip
+unzip -q jboss-as-7.1.1.Final.zip
+mv jboss-as-7.1.1.Final jboss-as
+groupadd jboss
+useradd -s /bin/bash -g jboss jboss
+chown -Rf jboss.jboss /usr/share/jboss-as
+cd /home/jboss/
+vim .bash_profile
+---> Insert:
+    JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.261-2.6.22.2.el7_8.x86_64/jre  
+    export JAVA_HOME  
+    PATH=$JAVA_HOME/bin:$PATH  
+    export PATH
+
+cd /root/
+vim .bash_profile
+---> Insert:
+    JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.261-2.6.22.2.el7_8.x86_64/jre  
+    export JAVA_HOME  
+    PATH=$JAVA_HOME/bin:$PATH  
+    export PATH
+
+cd /usr/share/jboss-as/bin/init.d/
+cp jboss-as-standalone.sh /etc/init.d/jboss
+cd /etc/init.d/
+vim jboss
+---> Insert below EXPORT JAVA_HOME:
+    JBOSS_USER=jboss
+    export JBOSS_USER
+
+chmod 755 jboss
+service jboss start
+service jboss stop
+cd /usr/share/jboss-as/standalone/configuration/
+vim standalone.xml 
+---> Change the bind address in the public interface as follows. Save it and exit after the appropriate changes are made. 
+    - Change it from 127.0.0.1 to 0.0.0.0
+service jboss start
+
+--- Open your webbrower and navigate to http://<your-ip-address>:8080 (make sure you open 8080 port in your SG)
