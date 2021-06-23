@@ -1,18 +1,33 @@
 JBOSS EAP 7.1.1 Installation on UBUNTU 18.04 LTS:
 
-1. Install updates and upgrades:
-    $ sudo apt-get update -y 
-    $ sudo apt-get upgrade -y 
-2. Install the OpenJDK package from APT:
-    $ sudo apt-get install default-jdk -y 
-3. Create a user and group for jboss:
-    $ sudo groupadd -r jboss
-    $ sudo useradd -r -g jboss -d /opt/jboss -s /sbin/nologin jboss
-4. Download the jboss installation file:
-    $ wget https://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.tar.gz -P /tmp 
-5. Extract the jboss tar.gz file to /opt folder:
-    $ sudo tar xf /tmp/jboss-as-7.1.1.Final.tar.gz -C /opt/
-6. Create a symbolic link to point to the jboss installation directory:
-    $ sudo ln -s /opt/jboss-as-7.1.1.Final /opt/jboss
-7. Give access to jboss group and user:
-    $ sudo chown -RH jboss: /opt/jboss
+1. Install updates:
+    $ sudo apt-get update -y
+2. Install java:
+    $ sudo apt-get install java-1.7.0-openjdk -y
+    $ java -version
+4. Download JBOSS 7.1.1:
+    $ wget http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.zip
+5. Unzip the package in opt folder:
+    $ sudo unzip -q jboss-as-7.1.1.Final.zip -d /opt/
+6. Download jboss-modules-1.1.5.ga and replace it with existing jboss-modules.jar file:    
+    $ wget http://www.java2s.com/Code/JarDownload/jboss-modules/jboss-modules-1.1.5.ga.jar.zip
+    $ sudo unzip jboss-modules-1.1.5.ga.jar.zip -d /opt/jboss-as-7.1.1.Final/
+    $ cd /opt/jboss-as-7.1.1.Final/
+    $ ls -ltra
+    $ sudo rm -f jboss-modules.jar
+    $ sudo mv jboss-modules-1.1.5.ga.jar jboss-modules.jar
+7. Create a symbolic link to JBOSS_HOME:
+    $ cd /opt/
+    $ sudo ln -s jboss-as-7.1.1.Final/ jboss
+6. Add the JBOSS user and make it sudoer:
+    $ sudo adduser jboss
+    $ sudo usermod -aG wheel jboss
+7. Change the ownership for jboss-as:
+    $ sudo chown -R jboss. /opt/jboss-as-7.1.1.Final/ /opt/jboss
+8. Now, login as jboss user and cd into JBOSS_HOME directory:
+    $ sudo su -jboss
+    $ cd /opt/jboss/bin
+9. Now, add user and login:
+    $ ./add-user.sh
+    Fill in the details and start jboss:
+    $ ./standalone.sh -Djboss.bind.address=0.0.0.0 -Djboss.bind.address.management=0.0.0.0 &
