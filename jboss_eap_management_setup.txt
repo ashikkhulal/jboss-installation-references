@@ -1,0 +1,22 @@
+Adding a management User- Interactively:
+
+    $ EAP_HOME/bin/add-user.sh
+    and then fill in the details.
+
+Adding a Management user non-Interactively:
+
+    $ EAP_HOME/bin/add-user.sh -u '<username>' -p '<password>' -g 'guest,mgmtgoup'
+
+Note:
+
+User info is stored in the following properties file:
+    
+    $ EAP_HOME/standalone/configuration/mgmt-users.properties
+
+Group info is stored in the following properties file:
+    
+    $ EAP_HOME/standalone/configuration/mgmt-groups.properties
+
+To update user info (like disable user, change password, change group)
+
+    - follow the adding a management user command and in username, enter the existing username you want to make changes to.
