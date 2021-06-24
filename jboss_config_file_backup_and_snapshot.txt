@@ -1,0 +1,29 @@
+Directories to backup:
+
+- Backup user data, server config, and logging settings:
+    $ EAP_HOME/standalone/configuration/
+
+- Backup user and profile data, domain and host config, and logging settings:
+    $ EAP_HOME/domain/configuration
+
+- Backup custom modules:
+    $ EAP_HOME/modules/
+
+- Backup any custom welcome content:
+    $ EAP_HOME/welcome-content/
+
+- Backup any custom scripts or startup-config files:
+    $ EAP_HOME/bin/
+
+Note: Jboss automatically takes snapshot of your history as well:
+    $ cd EAP_HOME/standalone/configuration/standalone_xml_history/
+    $ ls current/
+
+To manually take a snapshot, login to your management cli and pass in following:
+    $ :take-snapshot
+
+    To list snapshot,
+    $ :list-snapshot
+
+    To delete snapshot,
+    $ :delete-snapshot(name=<snapshot name>)
