@@ -1,0 +1,60 @@
+JBOSS EAP 7.2.0 Installation on RHEL 8.1:
+
+
+Download and copy jboss installer jar file from your windows/ macos machine to linux terminal using scp command and do the following:
+Download at: https://access.redhat.com/
+
+1. Installing updates:
+    $ sudo yum update -y 
+2. Installing OpenJDK:
+    $ sudo yum install java-11-openjdk-devel -y 
+3. JBOSS EAP Install:
+    sudo java -jar jboss-eap-7.2.0-installer.jar -console
+Then, follow the instructions for installation.
+
+After it is installed, do the following:
+1. Create a service user:
+    $ sudo useradd --no-create-home --shell /bin/false jboss-eap
+2. Set the JBOSS_HOME and JBOSS_USER:
+    $ sudo vim /opt/jboss-eap/bin/init.d/jboss-eap.conf
+3. Copy the service file:
+    $ sudo cp /opt/jboss-eap/bin/init.d/jboss-eap.conf /etc/default/
+    $ sudo cp /opt/jboss-eap/bin/init.d/jboss-eap-rhel.sh /etc/init.d/
+4. Make the script executable:
+    $ sudo chmod +x /etc/init.d/jboss-eap-rhel.sh
+5. Set the service to start automatically:
+    $ sudo chkconfig --add jboss-eap-rhel.sh
+    $ sudo chkconfig jboss-eap-rhel.sh on
+6. Create the Jboss EAP's run directory and set the ownership:
+    $ sudo mkdir /var/run/jboss-eap
+    $ sudo chown -R jboss-eap:jboss-eap /var/run/jboss-eap/
+7. Change the ownership of the JBOSS_HOME directory:
+    $ sudo chown -R jboss-eap:jboss-eap /opt/jboss-eap/
+8. To start:
+    $ sudo systemctl start jboss-eap-rhel
+    or 
+    $ sudo /opt/jboss-eap/bin/init.d/jboss-eap-rhel.sh start
+    $ sudo /opt/jboss-eap/bin/init.d/jboss-eap-rhel.sh status   
+
+--- FOR SELinux ---
+Set SELinux Policy:
+1. Set up the enforcement file:
+    $ mkdir selinux
+    $ sudo vim ~/selinux/jboss-eap-rhel.te 
+
+    And insert and save and quit:
+        module jboss-eap-rhel 1.0;
+
+        require {
+            type init_t;
+            type var_log_t;
+            class file create;
+        }
+        allow init_t var_log_t:file create;
+2. Create the policy file from the enforcement file:
+    $ cd ~/selinux/
+    $ sudo make -f /usr/share/selinux/devel/Makefile jboss-eap-rhel.pp
+3. Add the policy module:
+    $ sudo semodule -i jboss-eap-rhel.pp
+4. Finally, start the service:
+    $ sudo systemctl start jboss-eap-rhel

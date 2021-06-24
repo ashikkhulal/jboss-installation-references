@@ -1,0 +1,25 @@
+In general, two types of configuration mode:
+
+1. Standalone:
+    - default configuration
+    - configuration file can be found in the EAP_HOME/standalone/configuration/ directory
+    - Uses the EAP_HOME/bin/standalone.sh to start the instance
+    - Greate for single instance or small cluster
+
+2. Managed Domain:
+    - Single point configuration control
+    - Configuration files can be found in the EAP_HOME/domain/configuration directory
+    - Uses the EAP_HOME/bin/domain.sh to start the instance
+    - Great for multi-instance cluster
+
+To configure Standalone mode:
+1. Cd into the standalone.xml location and make changes:
+    $ cd /opt/jboss-eap/standalone/configuration/
+    $ sudo vim standalone.xml
+    And make changes to 0.0.0.0 from 127.0.0.1 in public interface binding address as in management too.
+    $ sudo /opt/jboss-eap/bin/init.d/jboss-eap-rhel.sh restart
+2. Also, cd into the /etc/default/ and edit jboss-eap.conf
+    $ sudo vim /etc/default/jboss-eap.conf
+    And unhash out JBOSS_MODE and JBOSS_CONFIG.
+    And finally, restart the service:
+    $ sudo /opt/jboss-eap/bin/init.d/jboss-eap-rhel.sh restart
