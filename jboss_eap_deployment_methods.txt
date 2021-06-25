@@ -1,0 +1,43 @@
+JBOSS EAP 5 Deployment methods:
+
+- Deploying using the management cli:
+    - single command-line interface with the ability to create and run deployment scripts.
+    Deploy:
+    $ deployment deploy-file /path/to/test-app.war
+    Check that the application has deployed using the deployment info command:
+    $ deployment info
+    Undeploy or disable deployment:
+    $ deployment undeploy test-app.war
+    $ deployment disable test-app.war
+    
+- Deploying using the management console:
+    - the benefits of a graphical interface that is easy to use.
+- Deploying using the deployment scanner:
+    - monitors the deployment directory for applications to deploy and scans every 5 seconds for changes.
+    Deploy:
+    $ sudo cp /path/to/test-app.war EAP_HOME/standalone/deployments/
+    Undeploy:
+    $ rm EAP_HOME/standalone/deployments/test-app.war.deployed
+    Redeploy:
+    $ touch EAP_HOME/standalone/deployments/test-app.war.dodeploy
+- Deploying using Maven:
+    - Uses wildfly maven plugin for simple operations to deploy and undeploy applications.
+    Install Maven using sudo yum install maven
+    Deploy:
+    $ mvn clean install wildfly:deploy
+    Undeploy:
+    $ mvn wildfly:undeploy
+- Deploying using the HTTP api:
+    - allows for a curl command to deploy an application.
+
+
+Note: To inflate or unzip jar file, get into the jar file directory, and run:
+    $ jar -xvf ../<appname>.war
+To zip back, run:
+    $ jar -cvf <appname>.war
+
+To define a custome deployment directory:
+    $ EAP_HOME/bin/standalone.sh - Djboss.server.deploy.dir=/some_path/deployed_content
+
+To validate:
+    Visit PUBLICIP:8080/<appname> to ensure the application is working.
