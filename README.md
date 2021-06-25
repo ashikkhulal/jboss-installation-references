@@ -11,3 +11,6 @@ This repo contains references for jboss/wildfly(new) installation and configurat
 - **JBOSS EAP MANAGEMENT CLI**
 - **JBOSS EAP 7.2 INSTALLATION IN RHEL 8**
 - **JBOSS EAP MANAGEMENT SETUP**
+- **JBOSS EAP MANAGEMENT CLI**
+- **JBOSS EAP LOGGING**
+- **JBOSS EAP DEPLOYMENT METHODS**
