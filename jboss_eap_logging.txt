@@ -1,0 +1,18 @@
+JBOSS EAP LOGGING:
+
+1. Server Logging:
+    $ EAP_HOME/standalone/log/server.log
+2. Make changes to Bootup logging:
+    Edit
+    $ EAP_HOME/standalone/configuration/logging.properties
+
+Three ways to view logs:
+
+1. Directly on the server file system.
+    $ sudo tail -100 EAP_HOME/standalone/log/server.log
+2. Management CLI:
+    $ /subsystem=logging/log-file=server.log:read-log-file
+3. Management Console:
+    - Select the Runtime tab and select the server.
+    - Select the Log Files and choose a log file from the list.
+    - Click View to view and search log contents, or choose Download from the dropdown to download the log files.
